@@ -75,6 +75,7 @@ class TelaDados:
             driver = iniciar_driver()
             driver.get('https://sede.mjusticia.gob.es/eConsultas/inicioNacionalidad')
             driver.maximize_window()
+            site_key = driver.find_element(By.XPATH,'//*[@id="captchaTramite"]/div/div/div').get_attribute('outerHTML')
             sleep(5)
             campo_nie = driver.find_element(By.ID,'codigoNieCompleto')
             campo_nie.send_keys(self.nie)
