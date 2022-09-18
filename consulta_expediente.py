@@ -39,7 +39,7 @@ def iniciar_driver():
 
 class TelaDados:
     def __init__(self):
-        arquivo = open('dados.txt','r')
+        arquivo = open('dados.txt','r', encoding='utf8')
         dados = arquivo.readlines()
         self.dado_nie = str((dados[0]))
         self.dado_nie = (self.dado_nie.strip('\n'))
@@ -79,25 +79,30 @@ class TelaDados:
         sleep(2)
         campo_ano = driver.find_element(By.ID,'yearSolicitud')
         campo_ano.send_keys(self.ano)
-        sleep(10)
+        sleep(5)
+        captcha = pyautogui.locateCenterOnScreen('captcha.png')
+        pyautogui.click(captcha[0], captcha[1], duration=0.5)
+        sleep(2)
+        pyautogui.press(['tab', 'tab', 'tab'])
+        pyautogui.press('space')
         
         input('')
         driver.close()
     
     def Iniciar(self): 
         while True:             
-            self.button, self.values = self.janela.Read()
+            self.event, self.values = self.janela.Read()
             self.nie = self.values['nie']
             self.numero = self.values['numero']
             self.ano = self.values['ano']
             
 
-            if self.button == 'Enviar':
+            if self.event == 'Enviar':
                 self.salvar()
                 self.enviar()
             
-            # if self.event == sg.WINDOW_CLOSED:
-            #     self.janela.close()
+            if self.event == sg.WINDOW_CLOSED:
+                self.janela.close()
 
 
 tela = TelaDados()
